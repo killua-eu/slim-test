@@ -3,6 +3,7 @@
 
 session_start();
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/config.php';
 
 /* 
 NOTE: psr-4 autoloading is turend on in composer.json. The psr-4 entry
@@ -22,19 +23,7 @@ print_r($user);
  * INSTANTIATE THE APP
  */
 
-$app = new \Slim\App([
-    'settings' => [
-        'displayErrorDetails' => true,
-        'mysql' => [,
-            'host' => '127.0.0.1',
-            'database' => 'slim-test',
-            'username' => 'slim',
-            'password' => '****',
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode'
-        ]
-    ]
-]);
+$app = new \Slim\App($config);
 
 
 /*
