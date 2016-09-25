@@ -30,38 +30,49 @@ $app = new \Slim\App($config);
  * DEPENDENCY INJECTION
  */
 
-// First we need to fetch the DI container
+
+// We need to fetch the DI container and bind all the dependencies to it (view, db, etc.)
 $container = $app->getContainer();
 
-// and bind dependencies to the container.
+
+// twig templating (views)
 $container['view'] = function ($container) {
-
-     // Define the view and set the path to the Views directory,
-     // turn of caching for development
-     $view = new \Slim\Views\Twig(__DIR__ . '/Views', [
+    // Define the view and set the path to the Views directory,
+    // turn of caching for development
+    $view = new \Slim\Views\Twig(__DIR__ . '/Views', [
         'cache' => false,
-     ]);
+    ]);
 
-     // Allow to generate different urls to our views
-     $view->addExtension(new \Slim\Views\TwigExtension(
-         // passing our router here as we'll be
-         // generating urls for links in twig views
-         $container->router,
-         $container->request->getUri()
-     ));
+    // Allow to generate different urls to our views
+    $view->addExtension(new \Slim\Views\TwigExtension(
+        // passing our router here as we'll be
+        // generating urls for links in twig views
+        $container->router,
+	$container->request->getUri()
+    ));
 
-     return $view;
+    return $view;
 };
 
 
+// database
 $container['db'] = function ($container) {
-   $db = $container['settings']['db'];
-   $mysqli = new mysqli($db['host'], $db['username'], $db['password'], $db['database']);
-   $mysqli->set_charset($config['settings']['db']['charset']);
-   $mysqli->query("SET collation_connection = ".$config['settings']['db']['collation']);
-   return $mysqli;
+    $db = $container['settings']['db'];
+    $mysqli = new mysqli($db['host'], $db['username'], $db['password'], $db['database']);
+    $mysqli->set_charset($config['settings']['db']['charset']);
+    $mysqli->query("SET collation_connection = ".$config['settings']['db']['collation']);
+     return $mysqli;
 };
 
+
+// monolog
+$container['logger'] = function ($c) {
+    $settings = $c->get('settings')['logger'];
+    $logger = new Monolog\Logger($settings['name']);
+    $logger->pushProcessor(new Monolog\Processor\UidProcessor());
+    $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+    return $logger;
+};
 
 /*
  * INCLUDE ROUTES

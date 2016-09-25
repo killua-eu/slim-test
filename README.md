@@ -22,3 +22,4 @@
   - index.php (just includes glued/bootstrap.php)
   - all public files (css, images, js, etc.)
 - extras (nginx configuration and db dump)
+- logs (make sure its writable by php)

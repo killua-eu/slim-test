@@ -5,7 +5,10 @@
 */
 
 $app->get('/', function ($request, $response) {
-   return 'A basic route returning just a string. Look at<br />
+   // Sample log message
+   $this->logger->info("Slim-Skeleton '/' route");
+
+   return 'A basic route returning a string and writing a log entry about it. Look at<br />
    - <a href="lala">here</a> for twig templating<br />
    - <a href="db1">here</a> for testing json queries to mysql<br />
    - <a href="db2">here</a> the same db test as above, just rewritten so that it uses DI, PS4 autoloading and separates the Model from View<br />
