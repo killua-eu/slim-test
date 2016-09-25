@@ -1,4 +1,4 @@
 <?php
 
-require __DIR__ . '/../glued/glued.php';
+require __DIR__ . '/../glued/bootstrap.php';
 $app->run();

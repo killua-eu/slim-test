@@ -18,16 +18,8 @@ server {
     index index.php index.html index.htm index.nginx-debian.html;
     server_name _;
 
-    location /slim01/ {
-        try_files $uri $uri/ /slim01/index.php$is_args$args;
-    }
-
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
-    }
-
-    location /slim/public/ {
-        try_files $uri $uri/ /slim/public/index.php$is_args$args;
     }
 
     location /slim-test/public/ {

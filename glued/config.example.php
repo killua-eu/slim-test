@@ -4,14 +4,15 @@
 $config = [
     'settings' => [
         'displayErrorDetails' => true,
-        'mysql' => [
+        'db' => [
             'host' => '127.0.0.1',
-            'database' => 'slim-test',
-            'username' => 'slim',
-            'password' => '****',
+            'database' => 'slim',
+            'username' => 'god',
+            'password' => '******',
             'charset' => 'utf8',
             'collation' => 'utf8_general_ci'
         ]
     ]
 ];
+
 

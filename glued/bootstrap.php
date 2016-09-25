@@ -54,6 +54,15 @@ $container['view'] = function ($container) {
 };
 
 
+$container['db'] = function ($container) {
+   $db = $container['settings']['db'];
+   $mysqli = new mysqli($db['host'], $db['username'], $db['password'], $db['database']);
+   $mysqli->set_charset($config['settings']['db']['charset']);
+   $mysqli->query("SET collation_connection = ".$config['settings']['db']['collation']);
+   return $mysqli;
+};
+
+
 /*
  * INCLUDE ROUTES
  */
