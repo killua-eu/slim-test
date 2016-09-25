@@ -10,7 +10,7 @@ $config = [
             'username' => 'slim',
             'password' => '****',
             'charset' => 'utf8',
-            'collation' => 'utf8_unicode'
+            'collation' => 'utf8_unicode_ci'
         ]
     ]
 ];
