@@ -81,6 +81,19 @@ $container['PlainController'] = function ($container) {
 };
 
 
+// our own more sophisticated controller
+$container['UnsplitController'] = function ($container) {
+    return new \Glued\Controllers\UnsplitController($container->view);
+    // passing $container to HomeController is needed if
+    // we want to use dependencies (i.e. TWIG) inside the
+    // HomeController. If we do this, we naturally MUST
+    // have a constructor, that will take the view in.
+
+};
+
+
+
+
 /*
  * INCLUDE ROUTES
  */

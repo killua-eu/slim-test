@@ -12,8 +12,8 @@ $app->get('/', function ($request, $response) {
    - <a href="lala">here</a> for twig templating<br />
    - <a href="db1">here</a> for testing json queries to mysql<br />
    - <a href="db2">here</a> the same db test as above, just rewritten so that it uses DI, PS4 autoloading and separates the Model from View<br />
-   - <a href="dex?name=HillyBilly">here</a> controller as DI<br />
-   - <a href="home">here</a> controller as DI, with dependencies inside its methods<br />
+   - <a href="plain?name=HillyBilly">here</a> controller as DI<br />
+   - <a href="unsplit">here</a> an unsplit controller as DI, with dependencies inside its methods<br />
 ';
 });
 
@@ -81,6 +81,9 @@ return 'db1, should show the same as <a href="db2">db2</a>, if it doesn\'t, your
 });
 
 /*
- * Showing off controller:method call (see also bootstrap.php to see the DI of the HomeController) [/dex/]
+ * Showing off controller:method call (see also bootstrap.php to see the DI of the PlainController,
+ * UnsplitController and HomeController)
 */
-$app->get('/dex', 'PlainController:index');
+$app->get('/plain', 'PlainController:index');
+$app->get('/unsplit', 'UnsplitController:index');
+
