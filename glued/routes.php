@@ -7,11 +7,13 @@
 $app->get('/', function ($request, $response) {
    // Sample log message
    $this->logger->info("Slim-Skeleton '/' route");
-
+   // Html page
    return 'A basic route returning a string and writing a log entry about it. Look at<br />
    - <a href="lala">here</a> for twig templating<br />
    - <a href="db1">here</a> for testing json queries to mysql<br />
    - <a href="db2">here</a> the same db test as above, just rewritten so that it uses DI, PS4 autoloading and separates the Model from View<br />
+   - <a href="dex?name=HillyBilly">here</a> controller as DI<br />
+   - <a href="home">here</a> controller as DI, with dependencies inside its methods<br />
 ';
 });
 
@@ -78,3 +80,7 @@ $app->get('/db1', function ($request, $response) {
 return 'db1, should show the same as <a href="db2">db2</a>, if it doesn\'t, your connection configuration in either one is wrong.<br />';
 });
 
+/*
+ * Showing off controller:method call (see also bootstrap.php to see the DI of the HomeController) [/dex/]
+*/
+$app->get('/dex', 'PlainController:index');

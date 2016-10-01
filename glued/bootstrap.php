@@ -74,6 +74,13 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+
+// our own controller: the simplest thing
+$container['PlainController'] = function ($container) {
+    return new \Glued\Controllers\PlainController;
+};
+
+
 /*
  * INCLUDE ROUTES
  */
