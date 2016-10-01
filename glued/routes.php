@@ -14,6 +14,8 @@ $app->get('/', function ($request, $response) {
    - <a href="db2">here</a> the same db test as above, just rewritten so that it uses DI, PS4 autoloading and separates the Model from View<br />
    - <a href="plain?name=HillyBilly">here</a> controller as DI<br />
    - <a href="unsplit">here</a> an unsplit controller as DI, with dependencies inside its methods<br />
+   - <a href="home">here</a> a propper home controller. DI loaded, extending a common Controller class<br />
+
 ';
 });
 
@@ -86,4 +88,4 @@ return 'db1, should show the same as <a href="db2">db2</a>, if it doesn\'t, your
 */
 $app->get('/plain', 'PlainController:index');
 $app->get('/unsplit', 'UnsplitController:index');
-
+$app->get('/home', 'HomeController:index');

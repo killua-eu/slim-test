@@ -88,7 +88,12 @@ $container['UnsplitController'] = function ($container) {
     // we want to use dependencies (i.e. TWIG) inside the
     // HomeController. If we do this, we naturally MUST
     // have a constructor, that will take the view in.
+};
 
+// our most sophisticated container
+$container['HomeController'] = function ($container) {
+    return new \Glued\Controllers\HomeController($container);
+    // passing $container, not $container->view
 };
 
 
