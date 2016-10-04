@@ -2,6 +2,7 @@
 
 
 session_start();
+if (!file_exists( __DIR__ . '/config.php')) { die("Error 500: configuration missing."); }
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/config.php';
 
