@@ -1,8 +1,9 @@
 <?php
 
-use Respect\Validaton\Validator as v;
+use Respect\Validation\Validator as v;
 
 session_start();
+
 if (!file_exists( __DIR__ . '/config.php')) { die("Error 500: configuration missing."); }
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/config.php';
@@ -120,7 +121,8 @@ $container['AuthController'] = function ($container) {
 $app->add(new \Glued\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \Glued\Middleware\OldInputMiddleware($container));
 
-//v:with('Glued\\Validation\\Rules\\');
+# path to validation rules (double slash = escaping)
+v::with('Glued\\Validation\\Rules\\');
 
 
 /*
