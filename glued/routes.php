@@ -88,4 +88,8 @@ return 'db1, should show the same as <a href="db2">db2</a>, if it doesn\'t, your
 */
 $app->get('/plain', 'PlainController:index');
 $app->get('/unsplit', 'UnsplitController:index');
-$app->get('/home', 'HomeController:index');
+$app->get('/home', 'HomeController:index')->setName('home'); 
+
+$app->get('/auth/signup', 'AuthController:getSignUp')->setName('auth.signup');
+$app->post('/auth/signup', 'AuthController:postSignUp'); // we only need to set the name once for an uri, hence here not a setName again
+

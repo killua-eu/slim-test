@@ -62,7 +62,13 @@ $container['db'] = function ($container) {
     $mysqli = new mysqli($db['host'], $db['username'], $db['password'], $db['database']);
     $mysqli->set_charset($config['settings']['db']['charset']);
     $mysqli->query("SET collation_connection = ".$config['settings']['db']['collation']);
-     return $mysqli;
+    return $mysqli;
+};
+
+$container['db2'] = function ($container) {
+    $mysqli = $container->get('db');
+    $db2 = new \MysqliDb ($mysqli);
+    return $db2;
 };
 
 
@@ -74,6 +80,12 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+
+
+$container['validator'] = function ($container) {
+   return new Glued\Validation\Validator;
+};
+
 
 
 // our own controller: the simplest thing
@@ -97,8 +109,14 @@ $container['HomeController'] = function ($container) {
     // passing $container, not $container->view
 };
 
+// our most sophisticated container
+$container['AuthController'] = function ($container) {
+    return new \Glued\Controllers\Auth\AuthController($container);
+    // passing $container, not $container->view
+};
 
 
+$app->add(new \Glued\Middleware\ValidationErrorsMiddleware($container));
 
 /*
  * INCLUDE ROUTES
