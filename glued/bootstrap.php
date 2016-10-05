@@ -1,5 +1,6 @@
 <?php
 
+use Respect\Validaton\Validator as v;
 
 session_start();
 if (!file_exists( __DIR__ . '/config.php')) { die("Error 500: configuration missing."); }
@@ -117,6 +118,10 @@ $container['AuthController'] = function ($container) {
 
 
 $app->add(new \Glued\Middleware\ValidationErrorsMiddleware($container));
+$app->add(new \Glued\Middleware\OldInputMiddleware($container));
+
+//v:with('Glued\\Validation\\Rules\\');
+
 
 /*
  * INCLUDE ROUTES
