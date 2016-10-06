@@ -15,10 +15,10 @@ class EmailAvailable extends AbstractRule
 
     public function validate($input)
     {
-
              return false;
-             //db::where('email',$input);
-             //$a = db::getOne("users");
+             //$container = $app->getContainer();
+             //$container->db2->where('email',$input);
+             //$a = $container->db2->getOne("users");
              //print_r($a); die();
     }
 
