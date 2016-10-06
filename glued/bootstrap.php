@@ -118,8 +118,17 @@ $container['AuthController'] = function ($container) {
 };
 
 
+$container['csrf'] = function ($container) {
+    return new \Slim\Csrf\Guard;
+};
+
+
 $app->add(new \Glued\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \Glued\Middleware\OldInputMiddleware($container));
+$app->add(new \Glued\Middleware\CsrfViewMiddleware($container));
+
+
+$app->add($container->csrf);
 
 # path to validation rules (double slash = escaping)
 v::with('Glued\\Validation\\Rules\\');
