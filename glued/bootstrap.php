@@ -118,6 +118,12 @@ $container['AuthController'] = function ($container) {
 };
 
 
+// here the tip from geggleto
+$container['EmailAvailable'] = function ($container) {
+    return new \Glued\Validation\Rules\EmailAvailable($container);
+};
+
+
 $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
