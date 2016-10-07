@@ -122,6 +122,11 @@ $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
 
+$container['auth'] = function ($container) {
+    return new \Glued\Classes\Auth\Auth($container);
+};
+
+
 
 $app->add(new \Glued\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \Glued\Middleware\OldInputMiddleware($container));

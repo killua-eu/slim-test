@@ -93,3 +93,6 @@ $app->get('/home', 'HomeController:index')->setName('home');
 $app->get('/auth/signup', 'AuthController:getSignUp')->setName('auth.signup');
 $app->post('/auth/signup', 'AuthController:postSignUp'); // we only need to set the name once for an uri, hence here not a setName again
 
+$app->get('/auth/signin', 'AuthController:getSignIn')->setName('auth.signin');
+$app->post('/auth/signin', 'AuthController:postSignIn'); // we only need to set the name once for an uri, hence here not a setName again
+
