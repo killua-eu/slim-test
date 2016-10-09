@@ -11,6 +11,12 @@ class AuthController extends Controller
 
 
 
+    public function getSignOut($request, $response)
+    {
+        $this->container->auth->signout();
+        return $response->withRedirect($this->container->router->pathFor('home'));
+
+    }
 
 
 
@@ -39,7 +45,11 @@ class AuthController extends Controller
             $request->getParam('password')
         );
 
-        var_dump($auth);
+        if(!$auth) {
+             return $response->withRedirect($this->container->router->pathFor('auth.signin'));
+        }
+
+         return $response->withRedirect($this->container->router->pathFor('home'));
 
         //var_dump($request->getParams());
         /*
@@ -93,6 +103,8 @@ class AuthController extends Controller
               $this->container->logger->info("Auth: user ".$data['email']." created");
         else
               $this->container->logger->warn("Auth: user creation ".$data['email']." failed");
+
+        $this->container->auth->attempt($data['email'], $request->getParam('password')); // signin on signup
         return $response->withRedirect($this->container->router->pathFor('home'));
 
     }

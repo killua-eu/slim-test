@@ -8,6 +8,7 @@ if (!file_exists( __DIR__ . '/config.php')) { die("Error 500: configuration miss
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/config.php';
 
+
 /* 
 NOTE: psr-4 autoloading is turend on in composer.json. The psr-4 entry
 "Glued\\": "glued" correspond to the application name "Glued\" (the additional
@@ -37,6 +38,10 @@ $app = new \Slim\App($config);
 // We need to fetch the DI container and bind all the dependencies to it (view, db, etc.)
 $container = $app->getContainer();
 
+$container['auth'] = function ($container) {
+    return new \Glued\Classes\Auth\Auth($container);
+};
+
 
 // twig templating (views)
 $container['view'] = function ($container) {
@@ -54,6 +59,17 @@ $container['view'] = function ($container) {
 	$container->request->getUri()
     ));
 
+    // this is here so that we can use (i.e. see views/templates/partials/navigation.twig)
+    // {{ auth.check }}, as set in classes/Auth/Auth.php, inside our templates.
+    // NOTE: $container['auth'] closure must be before this view closure.
+    // NOTE: we cant use $view->getEnvironment()->addGlobal('auth', $container->auth); 
+    //       as this would do a sql query everytime we access the global
+    // TODO: possibly change this into middleware later?
+    $view->getEnvironment()->addGlobal('auth', [
+        'check' => $container->auth->check(),
+        'user' => $container->auth->user(),
+    ]);
+
     return $view;
 };
 
@@ -62,8 +78,8 @@ $container['view'] = function ($container) {
 $container['db'] = function ($container) {
     $db = $container['settings']['db'];
     $mysqli = new mysqli($db['host'], $db['username'], $db['password'], $db['database']);
-    $mysqli->set_charset($config['settings']['db']['charset']);
-    $mysqli->query("SET collation_connection = ".$config['settings']['db']['collation']);
+    $mysqli->set_charset($db['charset']);
+    $mysqli->query("SET collation_connection = ".$db['collation']);
     return $mysqli;
 };
 
@@ -122,9 +138,6 @@ $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
 
-$container['auth'] = function ($container) {
-    return new \Glued\Classes\Auth\Auth($container);
-};
 
 
 

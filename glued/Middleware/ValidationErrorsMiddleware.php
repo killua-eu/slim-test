@@ -8,7 +8,8 @@ class ValidationErrorsMiddleware extends Middleware
     {
 
         // getting the errors from session
-        $this->container->view->getEnvironment()->addGlobal('validationerrors',$_SESSION['validationerrors']);
+        $ve = $_SESSION['validationerrors'] ?? false; // if array item is not set, assume $ve to be null
+        $this->container->view->getEnvironment()->addGlobal('validationerrors',$_SESSION['validationerrors'] ?? false);
         unset($_SESSION['validationerrors']);
         $response = $next($request, $response);
         return $response;

@@ -9,7 +9,29 @@ class Auth
     protected $container;
     public function __construct($container) 
     {
-        $this->container = $container;
+         $this->container = $container;
+    }
+
+    public function user() {
+        $user = $_SESSION['user'] ?? false;
+         $this->container->db2->where('id',$user);
+         return $this->container->db2->getOne("users");
+    }
+
+    // check if login
+    public function check()
+    {
+/*        $user = false;
+        if (isset($_SESSION['user'])) {
+          $user = $_SESSION['user'];
+        }*/
+        $user = $_SESSION['user'] ?? false;
+        return isset($_SESSION['user']);
+    }
+
+    public function signout()
+    {
+        unset($_SESSION['user']);
     }
 
 
@@ -23,7 +45,7 @@ class Auth
              }
              
              if (password_verify($password, $user['password'])) {
-                 $_SESSION['user'] = $user->id;
+                 $_SESSION['user'] = $user['id'];
                  return true;
              }
 

@@ -96,3 +96,4 @@ $app->post('/auth/signup', 'AuthController:postSignUp'); // we only need to set 
 $app->get('/auth/signin', 'AuthController:getSignIn')->setName('auth.signin');
 $app->post('/auth/signin', 'AuthController:postSignIn'); // we only need to set the name once for an uri, hence here not a setName again
 
+$app->get('/auth/signout', 'AuthController:getSignOut')->setName('auth.signout');

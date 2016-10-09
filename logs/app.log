@@ -37,3 +37,6 @@
 [2016-10-07 12:11:07] slim-app.INFO: Slim-Skeleton '/' route [] {"uid":"8e4e773"}
 [2016-10-07 14:15:31] slim-app.INFO: Auth: user pavel.stratil-jun@fenix.cz created [] {"uid":"0a20eb4"}
 [2016-10-07 14:17:32] slim-app.INFO: Auth: user pavel.stratil-jun@fenix.cz created [] {"uid":"668f76d"}
+[2016-10-08 18:11:12] slim-app.INFO: Auth: user billy@vaizard.org created [] {"uid":"1293448"}
+[2016-10-08 18:14:24] slim-app.INFO: Auth: user x@x.com created [] {"uid":"2afe7cb"}
+[2016-10-08 19:50:20] slim-app.INFO: Slim-Skeleton '/' route [] {"uid":"07cd945"}
