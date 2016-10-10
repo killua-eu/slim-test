@@ -40,3 +40,5 @@
 [2016-10-08 18:11:12] slim-app.INFO: Auth: user billy@vaizard.org created [] {"uid":"1293448"}
 [2016-10-08 18:14:24] slim-app.INFO: Auth: user x@x.com created [] {"uid":"2afe7cb"}
 [2016-10-08 19:50:20] slim-app.INFO: Slim-Skeleton '/' route [] {"uid":"07cd945"}
+[2016-10-09 13:56:11] slim-app.INFO: Auth: user fu@fu.fu created [] {"uid":"1d822a6"}
+[2016-10-09 17:48:18] slim-app.INFO: Slim-Skeleton '/' route [] {"uid":"cc22f6a"}

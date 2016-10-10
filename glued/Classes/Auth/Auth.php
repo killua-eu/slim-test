@@ -13,7 +13,8 @@ class Auth
     }
 
     public function user() {
-        $user = $_SESSION['user'] ?? false;
+         $user = $_SESSION['user'] ?? false;
+         if ($user === false) return false;
          $this->container->db2->where('id',$user);
          return $this->container->db2->getOne("users");
     }
@@ -21,12 +22,7 @@ class Auth
     // check if login
     public function check()
     {
-/*        $user = false;
-        if (isset($_SESSION['user'])) {
-          $user = $_SESSION['user'];
-        }*/
-        $user = $_SESSION['user'] ?? false;
-        return isset($_SESSION['user']);
+        return $_SESSION['user'] ?? false;
     }
 
     public function signout()

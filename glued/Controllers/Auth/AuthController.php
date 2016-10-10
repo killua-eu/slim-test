@@ -46,6 +46,7 @@ class AuthController extends Controller
         );
 
         if(!$auth) {
+             $this->container->flash->addMessage('error', 'Could not sign in with those details.');
              return $response->withRedirect($this->container->router->pathFor('auth.signin'));
         }
 
@@ -99,13 +100,48 @@ class AuthController extends Controller
                       );
         //print_r($data);
         $user = $this->container->db2->insert ('users', $data);
-        if ($user)
+        if ($user) {
               $this->container->logger->info("Auth: user ".$data['email']." created");
-        else
+              $this->container->flash->addMessage('info', 'You have been signed up');
+        } else
               $this->container->logger->warn("Auth: user creation ".$data['email']." failed");
 
         $this->container->auth->attempt($data['email'], $request->getParam('password')); // signin on signup
         return $response->withRedirect($this->container->router->pathFor('home'));
+
+    }
+
+
+    public function getChangePassword($request, $response)
+    {
+        return $this->container->view->render($response, 'auth/changepassword.twig');
+    }
+
+    public function PostChangePassword($request, $response)
+    {
+
+        // passing $this->container->auth->user() to matchesPassword so that not only
+        // a user himself but also an admin from the admin panel, can change the user's password
+        // so we're not tying the validation down to the currently authenticated user.
+        $validation = $this->container->validator->validate($request, [
+             'password_old' => v::noWhitespace()->notEmpty()->matchesPassword($this->container, $this->container->auth->user()),
+             'password' => v::noWhitespace()->notEmpty(),
+        ]);
+
+        if ($validation->failed()) {
+           // on validation failure redirect back, 
+           // the rest of the function won't happen
+          return $response->withRedirect($this->container->router->pathFor('auth.password.change'));
+        }
+
+        $user_id = $_SESSION['user'] ?? false;
+        if ($user_id) {
+          $password = $request->getParam('password');
+          $this->container->db2->where('id', $user_id);
+          $this->container->db2->update('users', Array ( 'password' => password_hash($password, PASSWORD_DEFAULT)  ));
+          $this->container->flash->addMessage('info', 'Your password was changed');
+          return $response->withRedirect($this->container->router->pathFor('home'));
+       }
 
     }
 

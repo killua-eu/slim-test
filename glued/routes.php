@@ -1,5 +1,8 @@
 <?php
 
+use \Glued\Middleware\AuthMiddleware;
+use \Glued\Middleware\GuestMiddleware;
+
 /*
  * The home route [/]
 */
@@ -90,10 +93,26 @@ $app->get('/plain', 'PlainController:index');
 $app->get('/unsplit', 'UnsplitController:index');
 $app->get('/home', 'HomeController:index')->setName('home'); 
 
-$app->get('/auth/signup', 'AuthController:getSignUp')->setName('auth.signup');
-$app->post('/auth/signup', 'AuthController:postSignUp'); // we only need to set the name once for an uri, hence here not a setName again
 
-$app->get('/auth/signin', 'AuthController:getSignIn')->setName('auth.signin');
-$app->post('/auth/signin', 'AuthController:postSignIn'); // we only need to set the name once for an uri, hence here not a setName again
+// group of routes where user has to be signed in
+$app->group('', function () {
 
-$app->get('/auth/signout', 'AuthController:getSignOut')->setName('auth.signout');
+  // $app isn't in scope inside here, we use $this instead
+  // we could use $app only if we'd have to call "function () use ($app)"
+  $this->get ('/auth/password/change', 'AuthController:getChangePassword')->setName('auth.password.change');
+  $this->post('/auth/password/change', 'AuthController:postChangePassword'); // we only need to set the name once for an uri, hence here not a setName again
+  $this->get ('/auth/signout', 'AuthController:getSignOut')->setName('auth.signout');
+
+})->add(new AuthMiddleware($container));
+
+
+// group of routes where user must not be signed in to see them
+$app->group('', function () {
+
+  $this->get('/auth/signup', 'AuthController:getSignUp')->setName('auth.signup');
+  $this->post('/auth/signup', 'AuthController:postSignUp'); // we only need to set the name once for an uri, hence here not a setName again
+  $this->get('/auth/signin', 'AuthController:getSignIn')->setName('auth.signin');
+  $this->post('/auth/signin', 'AuthController:postSignIn'); // we only need to set the name once for an uri, hence here not a setName again
+
+})->add(new GuestMiddleware($container));
+

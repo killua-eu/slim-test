@@ -70,6 +70,8 @@ $container['view'] = function ($container) {
         'user' => $container->auth->user(),
     ]);
 
+    $view->getEnvironment()->addGlobal('flash', $container->flash);
+
     return $view;
 };
 
@@ -88,6 +90,12 @@ $container['db2'] = function ($container) {
     $db2 = new \MysqliDb ($mysqli);
     return $db2;
 };
+
+
+$container['flash'] = function ($container) {
+    return new \Slim\Flash\Messages();
+};
+
 
 
 // monolog
